@@ -16,7 +16,9 @@ fn main() {
     let handle = runtime.handle().clone();
     let toc = TableOfContent::new(&settings.storage, handle);
 
-    for collection in toc.all_collections() {
-        info!("loaded collection: {}", collection);
-    }
+    runtime.block_on(async {
+        for collection in toc.all_collections().await {
+            info!("loaded collection: {}", collection);
+        }
+    });
 }

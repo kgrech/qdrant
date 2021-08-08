@@ -29,9 +29,11 @@ fn main() -> std::io::Result<()> {
     let search_runtime_handle = runtime.handle().clone();
 
     let toc = TableOfContent::new(&settings.storage, search_runtime_handle);
-    for collection in toc.all_collections() {
-        info!("loaded collection: {}", collection);
-    }
+    runtime.block_on(async {
+        for collection in toc.all_collections().await {
+            info!("loaded collection: {}", collection);
+        }
+    });
     let toc_arc = Arc::new(toc);
 
     let mut handles: Vec<JoinHandle<Result<(), Error>>> = vec![];

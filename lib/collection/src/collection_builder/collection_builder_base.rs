@@ -45,7 +45,7 @@ pub fn construct_collection(
     // ToDo: Move tx-rx into updater, so Collection should not know about it.
     let (tx, rx) = unbounded();
 
-    let update_handler = Arc::new(Mutex::new(UpdateHandler::new(
+    let update_handler = Arc::new(tokio::sync::Mutex::new(UpdateHandler::new(
         optimizers,
         rx,
         optimize_runtime.handle().clone(),
@@ -56,7 +56,7 @@ pub fn construct_collection(
 
     Collection {
         segments: segment_holder,
-        config: Arc::new(RwLock::new(config)),
+        config: Arc::new(tokio::sync::RwLock::new(config)),
         wal: locked_wal,
         searcher: Arc::new(searcher),
         update_handler,

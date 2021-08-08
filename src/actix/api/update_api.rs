@@ -21,7 +21,8 @@ async fn do_update_points(
     operation: CollectionUpdateOperations,
     wait: bool,
 ) -> Result<UpdateResult, StorageError> {
-    toc.get_collection(name)?
+    toc.get_collection(name)
+        .await?
         .update(operation, wait)
         .await
         .map_err(|err| err.into())

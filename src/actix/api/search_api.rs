@@ -12,7 +12,8 @@ async fn do_search_points(
     name: &str,
     request: SearchRequest,
 ) -> Result<Vec<ScoredPoint>, StorageError> {
-    toc.get_collection(name)?
+    toc.get_collection(name)
+        .await?
         .search(Arc::new(request))
         .await
         .map_err(|err| err.into())

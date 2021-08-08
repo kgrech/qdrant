@@ -12,7 +12,7 @@ async fn do_recommend_points(
     collection_name: &str,
     request: RecommendRequest,
 ) -> Result<Vec<ScoredPoint>, StorageError> {
-    let collection = toc.get_collection(collection_name)?;
+    let collection = toc.get_collection(collection_name).await?;
     Ok(collection.recommend(Arc::new(request)).await?)
 }
 
